@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+      <html>
+      <head>
+      <title>Cubism Image Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+    input {
+      width: 80%;
+      padding: 12px;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #result {
+      margin-top: 20px;
+      max-width: 512px;
+    }
+    .loading {
+      display: none;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Cubism Image Generator</h1>
+  <p>Enter a description and get a cubism style AI-generated image</p>
+
+  <!-- ID'leri doğru şekilde ekleyelim -->
+  <div class="input-area">
+    <input type="text" id="prompt" placeholder="Example: an orange cat in geometric style">
+    <button id="generateBtn" onclick="generateImage()">Generate Image</button>
+  </div>
+
+  <!-- Loading göstergesi -->
+  <div id="loading" class="loading" style="display: none;">
+    <div class="spinner"></div>
+    <p>Generating your cubism image...</p>
+  </div>
+
+  <!-- Hata mesajı alanı -->
+  <div id="error" class="error" style="display: none;"></div>
+
+  <!-- Sonuç görseli -->
+  <div class="result-area">
+    <img id="result" style="display: none;">
+  </div>
+</div>
+
+<script>
+  async function generateImage() {
+    // HTML elementlerini seçelim
+    const promptInput = document.getElementById('prompt');
+    const loadingDiv = document.getElementById('loading');
+    const resultImg = document.getElementById('result');
+    const errorDiv = document.getElementById('error');
+    const generateButton = document.getElementById('generateBtn');
+
+    // Input kontrolü
+    if (!promptInput || !promptInput.value) {
+      if (errorDiv) errorDiv.textContent = 'Please enter a description';
+      if (errorDiv) errorDiv.style.display = 'block';
+      return;
+    }
+
+    try {
+      // UI durumunu güncelle
+      if (loadingDiv) loadingDiv.style.display = 'block';
+      if (resultImg) resultImg.style.display = 'none';
+      if (errorDiv) errorDiv.style.display = 'none';
+      if (generateButton) generateButton.disabled = true;
+
+      console.log('Sending request to:', window.location.origin + '/api/images/generate');
+      console.log('With prompt:', promptInput.value);
+
+      const response = await fetch('/api/images/generate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prompt: promptInput.value })
+      });
+
+      console.log('Response status:', response.status);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const imageUrl = URL.createObjectURL(blob);
+
+      if (resultImg) {
+        resultImg.src = imageUrl;
+        resultImg.style.display = 'block';
+      }
+
+    } catch (error) {
+      console.error('Error details:', error);
+      if (errorDiv) {
+        errorDiv.textContent = 'Error generating image: ' + error.message;
+        errorDiv.style.display = 'block';
+      }
+    } finally {
+      if (loadingDiv) loadingDiv.style.display = 'none';
+      if (generateButton) generateButton.disabled = false;
+    }
+  }
+</script>
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>
