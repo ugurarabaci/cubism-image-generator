@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 public class ImageService {
 
     private final RestTemplate restTemplate;
-    private static final String API_URL = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4";
+    private static final String API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0";
 
     private final String huggingFaceToken;
 
@@ -30,7 +30,7 @@ public class ImageService {
         headers.set("Authorization", "Bearer " + huggingFaceToken);
 
         String enhancedPrompt = "2D in the style of cubism art movement with featuring geometric shapes, high quality, detailed, " + prompt;
-        
+
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("inputs", enhancedPrompt);
 
