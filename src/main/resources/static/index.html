@@ -5,7 +5,7 @@
     <title><!DOCTYPE html>
       <html>
       <head>
-      <title>Cubism Image Generator</title>
+      <title>Cubism Art Generator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -47,40 +47,56 @@
       display: none;
       margin: 20px 0;
     }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .file-input {
+      margin: 20px 0;
+    }
   </style>
 </head>
 <body>
 <div class="container">
-  <h1>Cubism Image Generator</h1>
-  <p>Enter a description and get a cubism style AI-generated image</p>
-
-  <!-- ID'leri doğru şekilde ekleyelim -->
-  <div class="input-area">
-    <input type="text" id="prompt" placeholder="Example: an orange cat in geometric style">
-    <button id="generateBtn" onclick="generateImage()">Generate Image</button>
+  <h1>Cubism Art Generator</h1>
+  
+  <div class="tabs">
+    <button onclick="showTab('generate')">Generate from Text</button>
+    <button onclick="showTab('transform')">Transform Image</button>
   </div>
 
-  <!-- Loading göstergesi -->
-  <div id="loading" class="loading" style="display: none;">
-    <div class="spinner"></div>
-    <p>Generating your cubism image...</p>
+  <div id="generateTab" class="tab-content active">
+    <div class="input-area">
+      <input type="text" id="promptInput" placeholder="Enter your prompt...">
+      <button id="generateBtn">Generate</button>
+    </div>
   </div>
 
-  <!-- Hata mesajı alanı -->
-  <div id="error" class="error" style="display: none;"></div>
+  <div id="transformTab" class="tab-content">
+    <div class="file-input">
+      <input type="file" id="imageInput" accept="image/*">
+      <button id="transformBtn">Transform</button>
+    </div>
+  </div>
 
-  <!-- Sonuç görseli -->
+  <div class="loading" id="loadingIndicator">
+    <div class="loading-spinner"></div>
+    <p id="loadingText">Processing...</p>
+  </div>
+
   <div class="result-area">
-    <img id="result" style="display: none;">
+    <img id="resultImage">
   </div>
 </div>
 
 <script>
   async function generateImage() {
     // HTML elementlerini seçelim
-    const promptInput = document.getElementById('prompt');
-    const loadingDiv = document.getElementById('loading');
-    const resultImg = document.getElementById('result');
+    const promptInput = document.getElementById('promptInput');
+    const loadingDiv = document.getElementById('loadingIndicator');
+    const resultImg = document.getElementById('resultImage');
     const errorDiv = document.getElementById('error');
     const generateButton = document.getElementById('generateBtn');
 
@@ -134,6 +150,65 @@
       if (generateButton) generateButton.disabled = false;
     }
   }
+
+  async function transformImage() {
+    const fileInput = document.getElementById('imageInput');
+    const loadingDiv = document.getElementById('loadingIndicator');
+    const resultImg = document.getElementById('resultImage');
+    const transformBtn = document.getElementById('transformBtn');
+    
+    const file = fileInput.files[0];
+    
+    if (!file) {
+        alert('Lütfen bir görsel seçin');
+        return;
+    }
+
+    if (file.size > 4 * 1024 * 1024) {
+        alert('Görsel boyutu çok büyük. Maksimum boyut 4MB');
+        return;
+    }
+
+    try {
+        loadingDiv.style.display = 'block';
+        resultImg.style.display = 'none';
+        transformBtn.disabled = true;
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        const response = await fetch('/api/images/transform', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Görsel dönüştürme başarısız oldu');
+        }
+
+        const blob = await response.blob();
+        const imageUrl = URL.createObjectURL(blob);
+        resultImg.src = imageUrl;
+        resultImg.style.display = 'block';
+        
+    } catch (error) {
+        alert('Hata: ' + error.message);
+    } finally {
+        loadingDiv.style.display = 'none';
+        transformBtn.disabled = false;
+    }
+  }
+
+  function showTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    document.getElementById(tabName + 'Tab').classList.add('active');
+  }
+
+  // Event Listeners
+  document.getElementById('generateBtn').addEventListener('click', generateImage);
+  document.getElementById('transformBtn').addEventListener('click', transformImage);
 </script>
 </body>
 </html></title>
