@@ -1,0 +1,78 @@
+:root {
+    --primary: #3B82F6;
+    --primary-dark: #2563EB;
+    --secondary: #10B981;
+    --accent: #8B5CF6;
+    --background: #F3F4F6;
+    --text: #1F2937;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background);
+    background-image: url('../images/background-pattern.svg');
+    background-attachment: fixed;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    position: absolute;
+    top: -0.5rem;
+    left: 1rem;
+    background: white;
+    padding: 0 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text);
+}
+
+.dropzone {
+    border: 2px dashed #CBD5E0;
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.dropzone.active {
+    border-color: var(--primary);
+    background: rgba(59, 130, 246, 0.05);
+} 
