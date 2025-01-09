@@ -1,4 +1,4 @@
-package com.cubicimagegenerator.model;
+package com.cubicimagegenerator.domain.model.request;
 
 import lombok.Data;
 

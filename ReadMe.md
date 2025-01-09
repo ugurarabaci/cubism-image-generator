@@ -1,20 +1,34 @@
-# Cubic Image Generator API
+# Cubism Image Generator API
 
-This project is a backend application that takes an prompt as input and generates a cubic-style version of the image using DALL·E.
+This project is a backend application that takes an prompt as input and generates a cubism-style version of the image using Stable Diffusion XL.
+## API Endpoints
 
-## Features
-- Accepts an image prompt as input.
-- Sends the input image to the Stable Diffusion to generate a cubic art style version.
-- Returns the generated image as output.
+### 1. Text-to-Image
+- **POST** `/api/images/generate`
+- **Body**: `{ "prompt": "your text description" }`
+- Generates a cubist style image from text description
 
-## Requirements
-- **Java 23**
-- **DALL·E API Key** from OpenAI
-- Basic understanding of HTTP endpoints
+### 2. Image-to-Image
+- **POST** `/api/images/transform`
+- **Form-data**: `image: file`
+- Transforms uploaded image into cubist art style
 
-## Setup Instructions
+## Limitations
+- Maximum image size: 4MB
+- Supported image formats: JPEG, PNG
+- API token required for requests
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/username/cubic-image-generator.git
-cd cubic-image-generator
+## Web Interface
+Application runs at `http://localhost:8080` and provides two main features:
+- Generate images from text input
+- Transform uploaded images
+
+## How It Works
+1. **Text-to-Image**: Uses Stable Diffusion XL to generate cubist artwork from text descriptions
+2. **Image-to-Image**: 
+   - Analyzes uploaded image using BLIP model
+   - Generates description of the image
+   - Creates cubist version using Stable Diffusion XL
+
+## License
+MIT
