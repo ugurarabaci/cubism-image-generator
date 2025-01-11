@@ -1,34 +1,74 @@
-# Cubism Image Generator API
+# Cubism Art Generator 🎨
 
-This project is a backend application that takes an prompt as input and generates a cubism-style version of the image using Stable Diffusion XL.
+Live Demo: [https://cubism-image-generator-production.up.railway.app/](https://cubism-image-generator-production.up.railway.app/)
+
+## Overview
+
+Cubism Art Generator is a web application that transforms images into Cubism-style artworks using AI. It offers two main functionalities:
+
+1. **Text to Image**: Generate Cubism art from text descriptions
+2. **Image to Image**: Transform existing images into Cubism style
+
+## Features
+
+- 🖼️ Two generation methods:
+   - Text-to-Image generation
+   - Image-to-Image transformation
+- 🎯 User-friendly interface with drag-and-drop support
+- 📱 Responsive design that works on both desktop and mobile
+- ⬇️ Easy image download functionality
+- 🚀 Fast processing using Hugging Face's state-of-the-art models
+
+## Tech Stack
+
+- **Backend**: Spring Boot 3.x
+- **Frontend**: HTML5, Tailwind CSS, JavaScript
+- **AI Model**: Hugging Face Stable Diffusion
+- **Deployment**: Docker, Railway
+
+## Local Development
+
+### Prerequisites
+
+- Java 17 or higher
+- Maven
+- Docker (optional)
+
+### Running Locally
+
+1. Clone the repository:
+```bash
+git clone https://github.com/ugurarabaci/cubism-image-generator.git
+cd cubism-image-generator
+```
+
+2. Set up environment variables:
+```bash
+HUGGINGFACE_API_TOKEN=your_token
+```
+
+3. Build and run:
+```bash
+mvn clean package
+java -jar target/CubismImageGenerator-0.0.1-SNAPSHOT.jar
+```
+
+### Using Docker
+
+```bash
+docker build -t cubism-image-generator .
+docker run -p 8080:8080 -e HUGGINGFACE_API_TOKEN=your_token cubism-image-generator
+```
+
 ## API Endpoints
 
-### 1. Text-to-Image
-- **POST** `/api/images/generate`
-- **Body**: `{ "prompt": "your text description" }`
-- Generates a cubist style image from text description
+- `POST /api/images/generate`: Generate image from text
+- `POST /api/images/transform`: Transform uploaded image
 
-### 2. Image-to-Image
-- **POST** `/api/images/transform`
-- **Form-data**: `image: file`
-- Transforms uploaded image into cubist art style
+## Contributing
 
-## Limitations
-- Maximum image size: 4MB
-- Supported image formats: JPEG, PNG
-- API token required for requests
-
-## Web Interface
-Application runs at `http://localhost:8080` and provides two main features:
-- Generate images from text input
-- Transform uploaded images
-
-## How It Works
-1. **Text-to-Image**: Uses Stable Diffusion XL to generate cubist artwork from text descriptions
-2. **Image-to-Image**: 
-   - Analyzes uploaded image using BLIP model
-   - Generates description of the image
-   - Creates cubist version using Stable Diffusion XL
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
-MIT
+
+This project is licensed under the MIT License - see the LICENSE file for details.
